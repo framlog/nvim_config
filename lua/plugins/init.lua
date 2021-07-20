@@ -1,7 +1,5 @@
 return require('packer').startup(function()
     use 'wbthomason/packer.nvim'
-
-    use {'akinsho/nvim-bufferline.lua', requires = 'kyazdani42/nvim-web-devicons'}
     use {
         'hrsh7th/nvim-compe',
         event = { 'InsertEnter' },
@@ -65,10 +63,7 @@ return require('packer').startup(function()
     }
     use {
         'romgrk/barbar.nvim',
-        event = { 'VimEnter' },
-        config = require('plugins.bufferline').config,
         requires = { 'kyazdani42/nvim-web-devicons', opt = true },
-        disable = true, 
     }
     use {
         'steelsojka/pears.nvim',
