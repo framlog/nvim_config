@@ -41,7 +41,10 @@ return require('packer').startup(function()
         'lewis6991/gitsigns.nvim',
         requires = {
             'nvim-lua/plenary.nvim'
-        }
+        },
+        config = function() 
+            require('gitsigns').setup{}
+        end
     }
     use { 'sindrets/diffview.nvim', opt = true, cmd = 'DiffviewOpen' }
     use { 'zsugabubus/crazy8.nvim', event = { 'BufRead' } } -- detect indentation automatically
