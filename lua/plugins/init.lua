@@ -15,6 +15,7 @@ return require('packer').startup(function()
         event = { 'BufRead' },
         config = require('plugins.indentline').config,
     }
+    use 'folke/lua-dev.nvim'
     use {
         'glepnir/galaxyline.nvim',
         branch = 'main',
