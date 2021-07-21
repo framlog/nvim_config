@@ -15,7 +15,10 @@ return require('packer').startup(function()
         event = { 'BufRead' },
         config = require('plugins.indentline').config,
     }
-    use 'folke/lua-dev.nvim'
+    use {
+        'folke/lua-dev.nvim',
+        opt = true
+    }
     use {
         'glepnir/galaxyline.nvim',
         branch = 'main',
@@ -65,6 +68,7 @@ return require('packer').startup(function()
     use {
         'romgrk/barbar.nvim',
         requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+        config = require('plugins.barbar').config,
     }
     use {
         'steelsojka/pears.nvim',
