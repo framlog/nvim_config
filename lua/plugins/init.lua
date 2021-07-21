@@ -70,11 +70,6 @@ return require('packer').startup(function()
         requires = { 'kyazdani42/nvim-web-devicons', opt = true },
         config = require('plugins.barbar').config,
     }
-    use {
-        'steelsojka/pears.nvim',
-        event = { 'BufRead' },
-        config = require('plugins.pears').config,
-    }
     use 'fatih/vim-go'
     use {
         'neovim/nvim-lspconfig',
