@@ -64,12 +64,10 @@ nvim_lsp["pylsp"].setup{on_attach=on_attach, default_config={
 }}
 nvim_lsp["clangd"].setup{on_attach=on_attach, default_config={
     cmd = {
-        "clangd", "--background-index", "--pch-storage=memory",
-        "--clang-tidy", "--suggest-missing-includes"
+        "clangd", "--background-index", "--pch-storage=memory", "--header-insertion=iwyu",
+        "--clang-tidy", "--suggest-missing-includes", "--ranking-model=decision_forest"
     },
     filetypes = {"c", "cpp", "objc", "objcpp"}
-    --- FIXME : For some reason this doesn't work.
-    ---settings = {clangd = {fallbackFlags = {"-std=c++17"}}}
 }}
 nvim_lsp["rls"].setup{on_attach=on_attach}
 nvim_lsp["metals"].setup{on_attach=on_attach}
