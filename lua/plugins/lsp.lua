@@ -49,8 +49,10 @@ local on_attach = function(client, bufnr)
   end
 end
 
-nvim_lsp["pylsp"].setup{on_attach=on_attach, default_config={
+nvim_lsp["pylsp"].setup{on_attach=on_attach, settings={
+  pylsp = {
     plugins = {
+        pycodestyle = {enabled = false},
         mccabe = {enabled = false},
         pyflakes = {enabled = false},
         mypy_ls = {enabled = true},
@@ -61,13 +63,16 @@ nvim_lsp["pylsp"].setup{on_attach=on_attach, default_config={
           maxLineLength = 120
         },
     }
+  }
 }}
-nvim_lsp["clangd"].setup{on_attach=on_attach, default_config={
+nvim_lsp["clangd"].setup{on_attach=on_attach, settings={
+  clangd = {
     cmd = {
         "clangd", "--background-index", "--pch-storage=memory", "--header-insertion=iwyu",
         "--clang-tidy", "--suggest-missing-includes", "--ranking-model=decision_forest"
     },
     filetypes = {"c", "cpp", "objc", "objcpp"}
+  }
 }}
 nvim_lsp["rls"].setup{on_attach=on_attach}
 nvim_lsp["metals"].setup{on_attach=on_attach}
