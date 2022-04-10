@@ -34,10 +34,9 @@ return require('packer').startup(function()
     use 'kyazdani42/nvim-web-devicons'
     use {
         'kyazdani42/nvim-tree.lua',
-        cmd = { 'NvimTreeOpen', 'NvimTreeToggle' },
-        setup = require('plugins.nvim_tree').setup,
-        config = require('plugins.nvim_tree').config,
         requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+        setup = require('plugins.nvimtree').setup,
+        config = require('plugins.nvimtree').config,
     }
     use {
         'lewis6991/gitsigns.nvim',
