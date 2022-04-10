@@ -20,10 +20,10 @@ return require('packer').startup(function()
         opt = true
     }
     use {
-        'glepnir/galaxyline.nvim',
+        'NTBBloodbath/galaxyline.nvim',
         branch = 'main',
         event = { 'VimEnter' },
-        config = function() require 'plugins.statusline' end,
+        config = function() require("galaxyline.themes.eviline") end,
         requires = {'kyazdani42/nvim-web-devicons', opt = true}
     }
     use {
