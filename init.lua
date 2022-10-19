@@ -83,3 +83,6 @@ vim.cmd [[autocmd TextYankPost * silent! lua vim.highlight.on_yank {higroup="Sea
 
 -- Ctrl+\ => open definition in a vertical splited window
 vim.api.nvim_set_keymap('n', '<C-\\>', ':vsp <CR><C-]><CR>', {silent = true})
+
+vim.g.go_def_mode='gopls'
+vim.g.go_info_mode='gopls'

@@ -42,10 +42,7 @@ return require('packer').startup(function()
         'lewis6991/gitsigns.nvim',
         requires = {
             'nvim-lua/plenary.nvim'
-        },
-        config = function() 
-            require('gitsigns').setup{}
-        end
+        }
     }
     use { 'sindrets/diffview.nvim', opt = true, cmd = 'DiffviewOpen' }
     use { 'zsugabubus/crazy8.nvim', event = { 'BufRead' } } -- detect indentation automatically
@@ -55,7 +52,7 @@ return require('packer').startup(function()
         event = { 'VimEnter' },
         setup = require('plugins.telescope').setup,
         config = require('plugins.telescope').config,
-        requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
+        requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}, {'BurntSushi/ripgrep'}}
     }
     use {
         'nvim-telescope/telescope-github.nvim',
@@ -78,6 +75,18 @@ return require('packer').startup(function()
             { 'nvim-lua/lsp_extensions.nvim', opt = true },
         },
     }
+    use 'hrsh7th/nvim-cmp'
+    use({
+    -- cmp LSP completion
+    "hrsh7th/cmp-nvim-lsp",
+    -- cmp Snippet completion
+    "hrsh7th/cmp-vsnip",
+    -- cmp Path completion
+    "hrsh7th/cmp-path",
+    "hrsh7th/cmp-buffer",
+    after = { "hrsh7th/nvim-cmp" },
+    requires = { "hrsh7th/nvim-cmp" },
+    })
     use {
         'nvim-treesitter/nvim-treesitter',
         event = { 'BufRead', 'BufNewFile' },
@@ -128,11 +137,19 @@ return require('packer').startup(function()
         event = { 'BufWinEnter quickfix' },
         config = require('plugins.quickfix').config,
     }
-    use { 'simrat39/rust-tools.nvim', opt = true }
+    use { 'simrat39/rust-tools.nvim' }
     use {
         'simrat39/symbols-outline.nvim',
         cmd = 'SymbolsOutline',
         setup = require('plugins.outline').setup,
         config = require('plugins.outline').config,
+    }
+    use {
+        'ldelossa/gh.nvim',
+        requires = 'ldelossa/litee.nvim',
+        config = function()
+            require('litee.lib').setup{}
+            require('litee.gh').setup{}
+        end
     }
 end)
