@@ -1,11 +1,6 @@
 return require('packer').startup(function()
     use 'wbthomason/packer.nvim'
     use {
-        'hrsh7th/nvim-compe',
-        event = { 'InsertEnter' },
-        config = require('plugins.compe').config,
-    }
-    use {
         'b3nj5m1n/kommentary',
         event = { 'BufRead', 'BufNewFile' },
         config = require('plugins.kommentary').config,
@@ -77,16 +72,17 @@ return require('packer').startup(function()
     }
     use 'hrsh7th/nvim-cmp'
     use({
-    -- cmp LSP completion
-    "hrsh7th/cmp-nvim-lsp",
-    -- cmp Snippet completion
-    "hrsh7th/cmp-vsnip",
-    -- cmp Path completion
-    "hrsh7th/cmp-path",
-    "hrsh7th/cmp-buffer",
-    after = { "hrsh7th/nvim-cmp" },
-    requires = { "hrsh7th/nvim-cmp" },
+        -- cmp LSP completion
+        "hrsh7th/cmp-nvim-lsp",
+        -- cmp Snippet completion
+        "hrsh7th/cmp-vsnip",
+        -- cmp Path completion
+        "hrsh7th/cmp-path",
+        "hrsh7th/cmp-buffer",
+        after = { "hrsh7th/nvim-cmp" },
+        requires = { "hrsh7th/nvim-cmp" },
     })
+    use {'tzachar/cmp-tabnine', run='./install.sh', requires = 'hrsh7th/nvim-cmp'}
     use {
         'nvim-treesitter/nvim-treesitter',
         event = { 'BufRead', 'BufNewFile' },
@@ -143,13 +139,5 @@ return require('packer').startup(function()
         cmd = 'SymbolsOutline',
         setup = require('plugins.outline').setup,
         config = require('plugins.outline').config,
-    }
-    use {
-        'ldelossa/gh.nvim',
-        requires = 'ldelossa/litee.nvim',
-        config = function()
-            require('litee.lib').setup{}
-            require('litee.gh').setup{}
-        end
     }
 end)
