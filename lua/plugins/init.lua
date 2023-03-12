@@ -22,6 +22,10 @@ return require('packer').startup(function()
         requires = {'kyazdani42/nvim-web-devicons', opt = true}
     }
     use {
+        'ggandor/leap.nvim',
+        config = function() require("leap").set_default_keymaps() end
+    }
+    use {
         'ur4ltz/surround.nvim',
         event = { 'BufRead', 'BufNewFile' },
         config = require('plugins.surround').config,
