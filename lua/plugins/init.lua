@@ -63,7 +63,6 @@ return require('packer').startup(function()
     use {
         'romgrk/barbar.nvim',
         requires = { 'kyazdani42/nvim-web-devicons', opt = true },
-        config = require('plugins.barbar').config,
     }
     use 'fatih/vim-go'
     use {
