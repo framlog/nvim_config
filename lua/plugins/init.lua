@@ -85,7 +85,6 @@ return require('packer').startup(function()
         after = { "hrsh7th/nvim-cmp" },
         requires = { "hrsh7th/nvim-cmp" },
     })
-    use {'tzachar/cmp-tabnine', run='./install.sh', requires = 'hrsh7th/nvim-cmp'}
     use {
         'nvim-treesitter/nvim-treesitter',
         event = { 'BufRead', 'BufNewFile' },
