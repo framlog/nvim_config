@@ -124,6 +124,7 @@ return require('packer').startup(function()
     use 'vim-scripts/mru.vim'
     use {
         'ThePrimeagen/harpoon',
+        branch = "harpoon2",
         opt = true,
         event = { 'VimEnter' },
         setup = require('plugins.harpoon').setup,
