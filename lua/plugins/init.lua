@@ -14,6 +14,8 @@ return require('packer').startup(function()
         'folke/lua-dev.nvim',
         opt = true
     }
+    use { "folke/tokyonight.nvim" }
+    use { "HiPhish/rainbow-delimiters.nvim" }
     use {
         'NTBBloodbath/galaxyline.nvim',
         branch = 'main',
@@ -25,12 +27,29 @@ return require('packer').startup(function()
         'ggandor/leap.nvim',
         config = function() require("leap").set_default_keymaps() end
     }
+    use { "onsails/lspkind.nvim" }
+    use { 
+        "zbirenbaum/copilot.lua",
+        cmd = "Copilot",
+        event = "InsertEnter",
+        config = function()
+            require("copilot").setup({})
+        end,
+    }
+    use {
+        "zbirenbaum/copilot-cmp",
+        after = { "copilot.lua" },
+        config = function ()
+            require("copilot_cmp").setup()
+        end
+    }
     use {
         'ur4ltz/surround.nvim',
         event = { 'BufRead', 'BufNewFile' },
         config = require('plugins.surround').config,
     }
     use 'kyazdani42/nvim-web-devicons'
+    use 'p00f/clangd_extensions.nvim'
     use {
         'kyazdani42/nvim-tree.lua',
         requires = { 'kyazdani42/nvim-web-devicons', opt = true },
@@ -85,7 +104,6 @@ return require('packer').startup(function()
         after = { "hrsh7th/nvim-cmp" },
         requires = { "hrsh7th/nvim-cmp" },
     })
-    use {'tzachar/cmp-tabnine', run='./install.sh', requires = 'hrsh7th/nvim-cmp'}
     use {
         'nvim-treesitter/nvim-treesitter',
         event = { 'BufRead', 'BufNewFile' },
@@ -103,8 +121,6 @@ return require('packer').startup(function()
         config = require('plugins.treesitter').config
     }
     use 'rust-lang/rust.vim'
-    use 'vim-scripts/peaksea'
-    use 'folke/tokyonight.nvim'
     use {
         'folke/todo-comments.nvim',
         requires = "nvim-lua/plenary.nvim",
@@ -125,6 +141,7 @@ return require('packer').startup(function()
     use 'vim-scripts/mru.vim'
     use {
         'ThePrimeagen/harpoon',
+        branch = "harpoon2",
         opt = true,
         event = { 'VimEnter' },
         setup = require('plugins.harpoon').setup,

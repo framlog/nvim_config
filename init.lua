@@ -5,7 +5,6 @@ vim.cmd("filetype plugin on")
 vim.cmd("filetype indent on")
 vim.cmd[[command! W w !sudo tee % > /dev/null]]
 
-vim.g.colors_name = 'tokyonight'
 vim.o.termguicolors = true
 
 vim.o.syntax = 'on'
@@ -40,7 +39,6 @@ vim.o.foldcolumn = '1'
 
 vim.o.lazyredraw = true
 
-vim.o.background = 'dark'
 -- Set utf8 as standard encoding and en_US as the standard language
 vim.o.encoding = 'utf8'
 -- Use Unix as the standard file type
@@ -86,3 +84,5 @@ vim.api.nvim_set_keymap('n', '<C-\\>', ':vsp <CR><C-]><CR>', {silent = true})
 
 vim.g.go_def_mode='gopls'
 vim.g.go_info_mode='gopls'
+
+vim.cmd("colorscheme tokyonight-night")
