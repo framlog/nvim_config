@@ -28,21 +28,6 @@ return require('packer').startup(function()
         config = function() require("leap").set_default_keymaps() end
     }
     use { "onsails/lspkind.nvim" }
-    use { 
-        "zbirenbaum/copilot.lua",
-        cmd = "Copilot",
-        event = "InsertEnter",
-        config = function()
-            require("copilot").setup({})
-        end,
-    }
-    use {
-        "zbirenbaum/copilot-cmp",
-        after = { "copilot.lua" },
-        config = function ()
-            require("copilot_cmp").setup()
-        end
-    }
     use {
         'ur4ltz/surround.nvim',
         event = { 'BufRead', 'BufNewFile' },
@@ -60,7 +45,10 @@ return require('packer').startup(function()
         'lewis6991/gitsigns.nvim',
         requires = {
             'nvim-lua/plenary.nvim'
-        }
+        },
+        config = function()
+	    require("gitsigns").setup()
+	end
     }
     use { 'sindrets/diffview.nvim', opt = true, cmd = 'DiffviewOpen' }
     use { 'zsugabubus/crazy8.nvim', event = { 'BufRead' } } -- detect indentation automatically
@@ -121,6 +109,7 @@ return require('packer').startup(function()
         config = require('plugins.treesitter').config
     }
     use 'rust-lang/rust.vim'
+    use "nvim-lua/plenary.nvim"
     use {
         'folke/todo-comments.nvim',
         requires = "nvim-lua/plenary.nvim",

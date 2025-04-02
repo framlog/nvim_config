@@ -147,7 +147,6 @@ cmp.setup({
 
   -- Installed sources
   sources = {
-    { name = "copilot" },
     { name = "nvim_lsp" },
     { name = "path" },
     { name = "buffer" },

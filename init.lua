@@ -9,6 +9,10 @@ vim.o.termguicolors = true
 
 vim.o.syntax = 'on'
 
+vim.diagnostic.config({
+    virtual_lines = true
+})
+
 -- Sets how many lines of history VIM has to remember
 vim.o.history = 500
 -- Line numbers related
