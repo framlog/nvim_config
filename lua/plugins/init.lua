@@ -80,18 +80,25 @@ return require('packer').startup(function()
             { 'nvim-lua/lsp_extensions.nvim', opt = true },
         },
     }
-    use 'hrsh7th/nvim-cmp'
-    use({
-        -- cmp LSP completion
-        "hrsh7th/cmp-nvim-lsp",
-        -- cmp Snippet completion
-        "hrsh7th/cmp-vsnip",
-        -- cmp Path completion
-        "hrsh7th/cmp-path",
-        "hrsh7th/cmp-buffer",
-        after = { "hrsh7th/nvim-cmp" },
-        requires = { "hrsh7th/nvim-cmp" },
-    })
+    use 'echasnovski/mini.nvim'
+    use 'echasnovski/mini.ai'
+    use 'echasnovski/mini.operators'
+    use 'echasnovski/mini.surround'
+    use 'echasnovski/mini.hues'
+    use 'echasnovski/mini.icons'
+    use {
+	'echasnovski/mini.completion',
+	setup = function() 
+	    require('mini.completion').setup({})
+
+	    local imap_expr = function(lhs, rhs)
+		vim.keymap.set('i', lhs, rhs, { expr = true })
+	    end
+
+	    imap_expr('<Tab>',   [[pumvisible() ? "\<C-n>" : "\<Tab>"]])
+	    imap_expr('<S-Tab>', [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]])
+	end
+    }
     use {
         'nvim-treesitter/nvim-treesitter',
         event = { 'BufRead', 'BufNewFile' },
