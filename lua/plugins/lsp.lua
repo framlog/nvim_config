@@ -1,115 +1,73 @@
 vim.cmd [[packadd lsp-status.nvim]]
 
-local nvim_lsp = require('lspconfig') local util = require "lspconfig/util"
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if not client then
+      return
+    end
 
-local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+    local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(args.buf, ...) end
+    local function buf_set_option(...) vim.api.nvim_buf_set_option(args.buf, ...) end
 
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+    vim.api.nvim_buf_set_option(args.buf, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-  -- Mappings.
-  local opts = { noremap=true, silent=true, buffer=bufnr }
-  vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
-  vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
-  vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
-  vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
-  vim.keymap.set('n', 'gh', vim.lsp.buf.hover, opts)
-  vim.keymap.set('n', '<C-]>', vim.lsp.buf.definition, opts)
-  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
-  vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
-  vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
-  vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
-  vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-  vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, opts)
-  vim.keymap.set('n', '<space>wl', function()
-    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  end, opts)
+    -- Mappings.
+    local opts = { noremap=true, silent=true, buffer=args.buf }
+    vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
+    vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
+    vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
+    vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
+    vim.keymap.set('n', 'gh', vim.lsp.buf.hover, opts)
+    vim.keymap.set('n', '<C-]>', vim.lsp.buf.definition, opts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+    vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
+    vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
+    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+    vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, opts)
+    vim.keymap.set('n', '<space>wl', function()
+      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    end, opts)
 
-  -- Set some keybinds conditional on server capabilities
-  if client.server_capabilities.document_formatting then
-    vim.keymap.set("n", "<space>f", vim.lsp.buf.formatting, opts)
-  elseif client.server_capabilities.document_range_formatting then
-    vim.keymap.set("n", "<space>f", vim.lsp.buf.range_formatting, opts)
+    -- Set some keybinds conditional on server capabilities
+    if client.server_capabilities.document_formatting then
+      vim.keymap.set("n", "<space>f", vim.lsp.buf.formatting, opts)
+    elseif client.server_capabilities.document_range_formatting then
+      vim.keymap.set("n", "<space>f", vim.lsp.buf.range_formatting, opts)
+    end
+
+    if client.server_capabilities.inlayHintProvider then
+      vim.lsp.inlay_hint.enable(true)
+    end
   end
-end
+})
 
-nvim_lsp["pylsp"].setup{on_attach=on_attach, settings={
-  pylsp = {
-    plugins = {
-        pycodestyle = {enabled = false},
-        mccabe = {enabled = false},
-        pyflakes = {enabled = false},
-        mypy_ls = {enabled = true},
-        pylsp_black = {enabled = true},
-        pyls_isort = {enabled = true},
-        pyls_flake8 = {
-          enabled = true, 
-          maxLineLength = 120
-        },
-    }
+vim.lsp.config('pylsp', {
+  plugins = {
+    pycodestyle = {enabled = false},
+    mccabe = {enabled = false},
+    pyflakes = {enabled = false},
+    mypy_ls = {enabled = true},
+    pylsp_black = {enabled = true},
+    pyls_isort = {enabled = true},
+    pyls_flake8 = {
+      enabled = true, 
+      maxLineLength = 120
+    },
   }
-}}
-nvim_lsp["clangd"].setup{on_attach=on_attach, settings={
-  clangd = {
-    cmd = {
+})
+vim.lsp.enable('pylsp')
+
+vim.lsp.config('clangd', {
+  cmd = {
         "clangd", "--background-index", "--header-insertion=iwyu",
         "--clang-tidy", "--suggest-missing-includes"
-    },
-    filetypes = {"c", "cpp", "objc", "objcpp"}
-  }
-}}
-nvim_lsp["gopls"].setup{on_attach=on_attach, settings={
-  cmd = {"gopls", "serve"},
-    filetypes = {"go", "gomod"},
-    root_dir = util.root_pattern("go.work", "go.mod", ".git"),
-    settings = {
-      gopls = {
-        analyses = {
-          unusedparams = true,
-        },
-        staticcheck = true,
-      },
-    },
-}}
-nvim_lsp["metals"].setup{on_attach=on_attach}
-
--- Configure LSP through rust-tools.nvim plugin.
--- rust-tools will configure and enable certain LSP features for us.
--- See https://github.com/simrat39/rust-tools.nvim#configuration
-local opts = {
-  tools = {
-    runnables = {
-      use_telescope = true,
-    },
   },
-
-  -- all the opts to send to nvim-lspconfig
-  -- these override the defaults set by rust-tools.nvim
-  -- see https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#rust_analyzer
-  server = {
-    -- on_attach is a callback called when the language server attachs to the buffer
-    on_attach = function(client, bufnr)
-      on_attach(client, bufnr)
-      local rt = require("rust-tools")
-      vim.keymap.set('n', 'gh', rt.hover_actions.hover_actions, { buffer = bufnr })
-      vim.keymap.set('n', '<space>ca', rt.code_action_group.code_action_group, { buffer = bufnr })
-    end,
-    settings = {
-      -- to enable rust-analyzer settings visit:
-      -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
-      ["rust-analyzer"] = {
-        -- enable clippy on save
-        checkOnSave = {
-          command = "clippy",
-        },
-      },
-    },
-  },
-}
-
-require("rust-tools").setup(opts)
+  filetypes = {"c", "cpp", "objc", "objcpp"}
+})
+vim.lsp.enable('clangd')
 
 local has_words_before = function()
   if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then return false end

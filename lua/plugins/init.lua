@@ -23,10 +23,7 @@ return require('packer').startup(function()
         config = function() require("galaxyline.themes.eviline") end,
         requires = {'kyazdani42/nvim-web-devicons', opt = true}
     }
-    use {
-        'ggandor/leap.nvim',
-        config = function() require("leap").set_default_keymaps() end
-    }
+    use { 'ggandor/leap.nvim' }
     use { "onsails/lspkind.nvim" }
     use {
         'ur4ltz/surround.nvim',
@@ -115,7 +112,6 @@ return require('packer').startup(function()
         run = ':TSUpdate',
         config = require('plugins.treesitter').config
     }
-    use 'rust-lang/rust.vim'
     use "nvim-lua/plenary.nvim"
     use {
         'folke/todo-comments.nvim',
@@ -149,11 +145,39 @@ return require('packer').startup(function()
         event = { 'BufWinEnter quickfix' },
         config = require('plugins.quickfix').config,
     }
-    use { 'simrat39/rust-tools.nvim' }
+    use { 
+	'mrcjkb/rustaceanvim',
+    }
     use {
         'simrat39/symbols-outline.nvim',
         cmd = 'SymbolsOutline',
         setup = require('plugins.outline').setup,
         config = require('plugins.outline').config,
+    }
+    use {
+	'greggh/claude-code.nvim',
+	requires = {
+	    'nvim-lua/plenary.nvim', -- Required for git operations
+	},
+	config = function()
+	    require('claude-code').setup({
+		window = {
+		    position = "vertical",
+		},
+		refresh = {
+		    enable = true,
+		    updatetime = 100,
+		    timer_interval = 1000,
+		    show_notifications = true,
+		},
+		keymaps = {
+		    toggle = {
+			normal = "<leader>h",
+		    },
+		    window_navigation = true,
+		    scrolling = true,
+		}
+	    })
+	end
     }
 end)
