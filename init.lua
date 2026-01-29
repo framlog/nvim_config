@@ -1,6 +1,6 @@
-require('plugins.init')
-
 vim.g.mapleader = ";"
+
+require('plugins.init')
 vim.cmd("filetype plugin on")
 vim.cmd("filetype indent on")
 vim.cmd[[command! W w !sudo tee % > /dev/null]]

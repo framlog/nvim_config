@@ -82,7 +82,6 @@ function M.setup()
 end
 
 function M.config()
-    vim.cmd [[packadd nvim-web-devicons]]
     local actions = require 'telescope.actions'
     local sorters = require 'telescope.sorters'
     local previewers = require 'telescope.previewers'

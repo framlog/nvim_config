@@ -8,7 +8,7 @@ function M.config()
         'help',
         'markdown',
         'gitcommit',
-        'packer',
+        'lazy',
     }
     vim.g.indent_blankline_buftype_exclude = { 'terminal', 'nofile' }
     vim.g.indent_blankline_use_treesitter = true

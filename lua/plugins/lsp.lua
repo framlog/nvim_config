@@ -1,5 +1,3 @@
-vim.cmd [[packadd lsp-status.nvim]]
-
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
     local client = vim.lsp.get_client_by_id(args.data.client_id)
@@ -63,7 +61,7 @@ vim.lsp.enable('pylsp')
 vim.lsp.config('clangd', {
   cmd = {
         "clangd", "--background-index", "--header-insertion=iwyu",
-        "--clang-tidy", "--suggest-missing-includes"
+        "--clang-tidy", "--suggest-missing-includes", "--inlay-hints"
   },
   filetypes = {"c", "cpp", "objc", "objcpp"}
 })

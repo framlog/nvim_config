@@ -1,183 +1,191 @@
-return require('packer').startup(function()
-    use 'wbthomason/packer.nvim'
-    use {
+-- Bootstrap lazy.nvim
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+    vim.fn.system({
+        "git",
+        "clone",
+        "--filter=blob:none",
+        "https://github.com/folke/lazy.nvim.git",
+        "--branch=stable",
+        lazypath,
+    })
+end
+vim.opt.rtp:prepend(lazypath)
+
+require("lazy").setup({
+    {
         'b3nj5m1n/kommentary',
         event = { 'BufRead', 'BufNewFile' },
         config = require('plugins.kommentary').config,
-    }
-    use {
+    },
+    {
         'lukas-reineke/indent-blankline.nvim',
         event = { 'BufRead' },
         config = require('plugins.indentline').config,
-    }
-    use {
+    },
+    {
         'folke/lua-dev.nvim',
-        opt = true
-    }
-    use { "folke/tokyonight.nvim" }
-    use { "HiPhish/rainbow-delimiters.nvim" }
-    use {
+        lazy = true,
+    },
+    { "folke/tokyonight.nvim" },
+    { "HiPhish/rainbow-delimiters.nvim" },
+    {
         'NTBBloodbath/galaxyline.nvim',
         branch = 'main',
         event = { 'VimEnter' },
         config = function() require("galaxyline.themes.eviline") end,
-        requires = {'kyazdani42/nvim-web-devicons', opt = true}
-    }
-    use { 'ggandor/leap.nvim' }
-    use { "onsails/lspkind.nvim" }
-    use {
+        dependencies = { 'kyazdani42/nvim-web-devicons' },
+    },
+    { url = "https://codeberg.org/andyg/leap.nvim" },
+    { "onsails/lspkind.nvim" },
+    {
         'ur4ltz/surround.nvim',
         event = { 'BufRead', 'BufNewFile' },
         config = require('plugins.surround').config,
-    }
-    use 'kyazdani42/nvim-web-devicons'
-    use 'p00f/clangd_extensions.nvim'
-    use {
+    },
+    { 'kyazdani42/nvim-web-devicons' },
+    { 'p00f/clangd_extensions.nvim' },
+    {
         'kyazdani42/nvim-tree.lua',
-        requires = { 'kyazdani42/nvim-web-devicons', opt = true },
-        setup = require('plugins.nvimtree').setup,
+        dependencies = { 'kyazdani42/nvim-web-devicons' },
+        init = require('plugins.nvimtree').setup,
         config = require('plugins.nvimtree').config,
-    }
-    use {
+    },
+    {
         'lewis6991/gitsigns.nvim',
-        requires = {
-            'nvim-lua/plenary.nvim'
-        },
+        dependencies = { 'nvim-lua/plenary.nvim' },
         config = function()
-	    require("gitsigns").setup()
-	end
-    }
-    use { 'sindrets/diffview.nvim', opt = true, cmd = 'DiffviewOpen' }
-    use { 'zsugabubus/crazy8.nvim', event = { 'BufRead' } } -- detect indentation automatically
-    use 'amix/open_file_under_cursor.vim'
-    use {
+            require("gitsigns").setup()
+        end,
+    },
+    {
+        'sindrets/diffview.nvim',
+        cmd = 'DiffviewOpen',
+    },
+    {
+        'zsugabubus/crazy8.nvim',
+        event = { 'BufRead' },
+    },
+    { 'amix/open_file_under_cursor.vim' },
+    {
         'nvim-telescope/telescope.nvim',
         event = { 'VimEnter' },
-        setup = require('plugins.telescope').setup,
+        init = require('plugins.telescope').setup,
         config = require('plugins.telescope').config,
-        requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}, {'BurntSushi/ripgrep'}}
-    }
-    use {
+        dependencies = { 'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim' },
+    },
+    {
         'nvim-telescope/telescope-github.nvim',
-        after = { 'telescope.nvim' },
+        dependencies = { 'nvim-telescope/telescope.nvim' },
         config = function()
             require('telescope').load_extension 'gh'
         end,
-    }
-    use {
+    },
+    {
         'romgrk/barbar.nvim',
-        requires = { 'kyazdani42/nvim-web-devicons', opt = true },
-    }
-    use 'fatih/vim-go'
-    use {
+        dependencies = { 'kyazdani42/nvim-web-devicons' },
+    },
+    { 'fatih/vim-go' },
+    {
         'neovim/nvim-lspconfig',
         config = function() require 'plugins.lsp' end,
-        requires = {
-            { 'nvim-lua/lsp-status.nvim', opt = true },
-            { 'nvim-lua/lsp_extensions.nvim', opt = true },
+        dependencies = {
+            { 'nvim-lua/lsp-status.nvim' },
+            { 'nvim-lua/lsp_extensions.nvim' },
         },
-    }
-    use 'echasnovski/mini.nvim'
-    use 'echasnovski/mini.ai'
-    use 'echasnovski/mini.operators'
-    use 'echasnovski/mini.surround'
-    use 'echasnovski/mini.hues'
-    use 'echasnovski/mini.icons'
-    use {
-	'echasnovski/mini.completion',
-	setup = function() 
-	    require('mini.completion').setup({})
+    },
+    { 'echasnovski/mini.nvim' },
+    { 'echasnovski/mini.ai' },
+    { 'echasnovski/mini.operators' },
+    { 'echasnovski/mini.surround' },
+    { 'echasnovski/mini.hues' },
+    { 'echasnovski/mini.icons' },
+    {
+        'echasnovski/mini.completion',
+        config = function()
+            require('mini.completion').setup({})
 
-	    local imap_expr = function(lhs, rhs)
-		vim.keymap.set('i', lhs, rhs, { expr = true })
-	    end
+            local imap_expr = function(lhs, rhs)
+                vim.keymap.set('i', lhs, rhs, { expr = true })
+            end
 
-	    imap_expr('<Tab>',   [[pumvisible() ? "\<C-n>" : "\<Tab>"]])
-	    imap_expr('<S-Tab>', [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]])
-	end
-    }
-    use {
+            imap_expr('<Tab>',   [[pumvisible() ? "\<C-n>" : "\<Tab>"]])
+            imap_expr('<S-Tab>', [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]])
+        end,
+    },
+    {
         'nvim-treesitter/nvim-treesitter',
         event = { 'BufRead', 'BufNewFile' },
-        requires = {
-            {
-                'nvim-treesitter/nvim-treesitter-refactor',
-                after = 'nvim-treesitter',
-            },
-            {
-                'nvim-treesitter/nvim-treesitter-textobjects',
-                after = 'nvim-treesitter',
-            },
-        },
-        run = ':TSUpdate',
-        config = require('plugins.treesitter').config
-    }
-    use "nvim-lua/plenary.nvim"
-    use {
+        build = ':TSUpdate',
+    },
+    { "nvim-lua/plenary.nvim" },
+    {
         'folke/todo-comments.nvim',
-        requires = "nvim-lua/plenary.nvim",
+        dependencies = { "nvim-lua/plenary.nvim" },
         config = function()
             require('todo-comments').setup {}
         end,
-    }
-    use {
+    },
+    {
         "folke/trouble.nvim",
-        requires = "kyazdani42/nvim-web-devicons",
+        dependencies = { "kyazdani42/nvim-web-devicons" },
         config = function()
             require("trouble").setup {}
-        end
-    }
-    use 'mfussenegger/nvim-dap'
-    use 'psliwka/vim-smoothie'
-    use 'itchyny/vim-cursorword'
-    use 'vim-scripts/mru.vim'
-    use {
+        end,
+    },
+    { 'mfussenegger/nvim-dap' },
+    { 'psliwka/vim-smoothie' },
+    { 'itchyny/vim-cursorword' },
+    { 'vim-scripts/mru.vim' },
+    {
         'ThePrimeagen/harpoon',
         branch = "harpoon2",
-        opt = true,
         event = { 'VimEnter' },
-        setup = require('plugins.harpoon').setup,
+        init = require('plugins.harpoon').setup,
         config = require('plugins.harpoon').config,
-    }
-    use {
+    },
+    {
         'kevinhwang91/nvim-bqf',
-        opt = true,
         event = { 'BufWinEnter quickfix' },
         config = require('plugins.quickfix').config,
-    }
-    use { 
-	'mrcjkb/rustaceanvim',
-    }
-    use {
+    },
+    { 'mrcjkb/rustaceanvim' },
+    {
         'simrat39/symbols-outline.nvim',
         cmd = 'SymbolsOutline',
-        setup = require('plugins.outline').setup,
+        init = require('plugins.outline').setup,
         config = require('plugins.outline').config,
+    },
+    {
+        "coder/claudecode.nvim",
+        lazy = false,
+        priority = 1000,
+        dependencies = { "folke/snacks.nvim", "nvim-lua/plenary.nvim" },
+        config = function()
+          require("claudecode").setup({
+            terminal_cmd = "/home/dev/.local/bin/claude",
+            auto_start = true,
+            port_range = { min = 10000, max = 65535 },
+            track_selection = true,
+            visual_demotion_delay_ms = 50,
+            terminal = {
+              split_side = "left",
+              split_width_percentage = 0.30,
+              provider = "auto"
+            },
+          })
+
+          -- Setup keymaps
+          vim.keymap.set("n", "<leader>h", "<cmd>ClaudeCode<cr>", { desc = "Toggle Claude" })
+          vim.keymap.set("n", "<leader>ac", "<cmd>ClaudeCode<cr>", { desc = "Toggle Claude" })
+          vim.keymap.set("n", "<leader>af", "<cmd>ClaudeCodeFocus<cr>", { desc = "Focus Claude" })
+          vim.keymap.set("n", "<leader>ar", "<cmd>ClaudeCode --resume<cr>", { desc = "Resume Claude" })
+          vim.keymap.set("n", "<leader>aC", "<cmd>ClaudeCode --continue<cr>", { desc = "Continue Claude" })
+          vim.keymap.set("n", "<leader>am", "<cmd>ClaudeCodeSelectModel<cr>", { desc = "Select Claude model" })
+          vim.keymap.set("n", "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>", { desc = "Add current buffer" })
+          vim.keymap.set("v", "<leader>as", "<cmd>ClaudeCodeSend<cr>", { desc = "Send to Claude" })
+          vim.keymap.set("n", "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", { desc = "Accept diff" })
+          vim.keymap.set("n", "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", { desc = "Deny diff" })
+        end,
     }
-    use {
-	'greggh/claude-code.nvim',
-	requires = {
-	    'nvim-lua/plenary.nvim', -- Required for git operations
-	},
-	config = function()
-	    require('claude-code').setup({
-		window = {
-		    position = "vertical",
-		},
-		refresh = {
-		    enable = true,
-		    updatetime = 100,
-		    timer_interval = 1000,
-		    show_notifications = true,
-		},
-		keymaps = {
-		    toggle = {
-			normal = "<leader>h",
-		    },
-		    window_navigation = true,
-		    scrolling = true,
-		}
-	    })
-	end
-    }
-end)
+})
