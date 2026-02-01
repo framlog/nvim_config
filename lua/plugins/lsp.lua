@@ -43,17 +43,21 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 vim.lsp.config('pylsp', {
-  plugins = {
-    pycodestyle = {enabled = false},
-    mccabe = {enabled = false},
-    pyflakes = {enabled = false},
-    mypy_ls = {enabled = true},
-    pylsp_black = {enabled = true},
-    pyls_isort = {enabled = true},
-    pyls_flake8 = {
-      enabled = true, 
-      maxLineLength = 120
-    },
+  settings = {
+    pylsp = {
+      plugins = {
+        pycodestyle = { enabled = false },
+        mccabe = { enabled = false },
+        pyflakes = { enabled = false },
+        mypy_ls = { enabled = true },
+        pylsp_black = { lenabled = true },
+        pyls_isort = { enabled = true },
+        pyls_flake8 = {
+          enabled = true, 
+          maxLineLength = 120
+        },
+      }
+    }
   }
 })
 vim.lsp.enable('pylsp')
